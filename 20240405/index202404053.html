@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Single+Day&family=Workbench&display=swap" rel="stylesheet">
+    <style>
+        h1 {
+            color:blue;
+            text-align: center;
+            text-shadow: 5px 5px 5px #a9a9a9;
+        }
+        u{
+            color:red;
+        }
+        fieldset{
+            background-color: yellow;
+            border-style: dotted;
+            border-color: darkgreen;
+            border-width: thick;
+            font-family: "Single Day", cursive;
+            font-weight: 400;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+    <h1>2024년 대학수학능력시험 국어영역 기출</h1>
+    <hr>
+    <form action="" method="post">
+        <fieldset>
+            <legend>보기</legend>
+            데이터를 처리할 때 데이터의 정확성은 매우 중요하다. 그런데
+            데이터에 결측치와 이상치가 포함되면 데이터의 특징을 제대로
+            a <u>나타내기</u> 어렵다.
+            결측치는 데이터 값이 b <u>빠져</u> 있는 것이다. 결측치를 처리하는
+            방법 중 하나인 대체는 다른 값으로 결측치를 채우는 것인데,
+            대체하는 값으로는 <img src="./star.png" alt="" width="20" height="20"><span style="background-color: aqua;">평균, 중앙값, 최빈값</span>을 많이 사용한다. 중앙
+            값은 데이터를 크기순으로 정렬했을 때 중앙에 위치한 값이다.
+            <!-- <div style="background-color: aqua;">크기가 같은 값이</div> 복수일 경우에도 순위를 매겨 중앙값을 찾고, -->
+            크기가 같은 값이 데이터의 개수가 짝수이면 중앙에 있는 두 값의 평균이 중앙값
+            이다. 또 최빈값은 데이터에 가장 많이 나타나는 값을 이른다.
+            일반적으로 데이터 값이 연속적인 수치이면 평균으로, 석차처럼
+            순위가 있는 값에는 중앙값으로, 직업과 같이 문자인 경우에는
+            최빈값으로 결측치를 대체한다.
+        </fieldset>
+        <h3>8. 윗글을 이해한 내용으로 적절하지 <u>않은</u> 것은?</h3>
+        <input type="radio" name="Q8" id="num1"><label for="num1">데이터가 수치로 구성되지 않아도 최빈값을 구할 수 있다.</label><br>
+        <input type="radio" name="Q8" id="num2"><label for="num2">데이터의 특징이 언제나 하나의 수치로 나타나는 것은 아니다.</label><br>
+        <input type="radio" name="Q8" id="num3"><label for="num3">데이터가 정상적으로 수집되었다면 이상치가 존재하지 않는다.</label><br>
+        <input type="radio" name="Q8" id="num4"><label for="num4">데이터에 동일한 수치가 여러 개 있어도 중앙값으로 결측치를 대체할 수 있다.</label><br>
+        <input type="radio" name="Q8" id="num5"><label for="num5">데이터를 수집하는 과정에서 측정 오류가 발생한 값이라도 이상치가 아닐 수 있다.</label><br>
+        <input type="reset" value="초기화">
+        <input type="submit" value="제출">
+    </form>
+</body>
+</html>
