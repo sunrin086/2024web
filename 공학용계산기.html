@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공학용 계산기</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 전체 페이지 스타일 */
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #2c3e50;
+        }
+
+        /* 계산기 전체 스타일 */
+        .calculator {
+            width: 360px;
+            background-color: #34495e;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0px 20px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 디스플레이 스타일 */
+        .display {
+            width: 92%;
+            height: 60px;
+            background: linear-gradient(to right, #f39c12, #d35400);
+            color: white;
+            text-align: right;
+            padding: 10px;
+            font-size: 28px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: none;
+            box-shadow: inset 0px 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 모드 전환 스위치 스타일 */
+        .mode-switch {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+
+        .mode-switch input[type="radio"] {
+            display: none;
+        }
+
+        .mode-switch label {
+            display: block;
+            width: 80px;
+            height: 30px;
+            background-color: #ecf0f1;
+            border-radius: 15px;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #2c3e50;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .mode-switch input[type="radio"]:checked + label {
+            background-color: #3498db;
+            color: white;
+        }
+
+        /* 버튼 스타일 */
+        .button {
+            width: 70px;
+            height: 70px;
+            margin: 5px;
+            font-size: 24px;
+            border: none;
+            border-radius: 15px;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:active {
+            transform: translateY(3px);
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 연산자 버튼 스타일 */
+        .operator {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .operator:active {
+            background-color: #e67e22;
+        }
+
+        /* 클리어 버튼 스타일 */
+        .clear {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .clear:active {
+            background-color: #c0392b;
+        }
+
+        /* 특수 버튼 스타일 */
+        .special {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .special:active {
+            background-color: #2980b9;
+        }
+
+        /* "=" 버튼 스타일 */
+        .button-equal {
+            background-color: #f39c12;
+            color: white;
+            font-weight: bold;
+        }
+
+        .button-equal:active {
+            background-color: #e67e22;
+        }
+
+        /* 버튼 컨테이너 스타일 */
+        .button-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            justify-content: center;
+        }
+
+        /* 특수 버튼 컨테이너 스타일 */
+        .button-container-special {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        /* 모드 전환 */
+        let isDegreeMode = true;
+
+        function toggleMode() {
+            const modeSwitch = document.querySelectorAll('.mode-switch input[type="radio"]');
+            isDegreeMode = modeSwitch[0].checked;
+            document.getElementById('mode-label-degree').textContent = isDegreeMode ? 'Degree' : 'Radian';
+            document.getElementById('mode-label-radian').textContent = isDegreeMode ? 'Radian' : 'Degree';
+        }
+
+        /* 값 추가 */
+        function appendValue(value) {
+            var display = document.getElementById("display");
+            display.value += value;
+        }
+
+        /* 계산 수행 */
+        function calculate() {
+            var display = document.getElementById("display");
+            try {
+                display.value = eval(display.value);
+            } catch (e) {
+                display.value = "Error";
+            }
+        }
+
+        /* 디스플레이 클리어 */
+        function clearDisplay() {
+            document.getElementById("display").value = "";
+        }
+
+        /* 백스페이스 */
+        function backspace() {
+            var display = document.getElementById("display");
+            display.value = display.value.slice(0, -1);
+        }
+
+        /* 삼각 함수 계산 */
+        function calculateTrig(func) {
+            var display = document.getElementById("display");
+            try {
+                var value = eval(display.value);
+                if (isDegreeMode) {
+                    value = value * (Math.PI / 180); // 도를 라디안으로 변환
+                }
+                if (func === 'sin') display.value = Math.sin(value);
+                if (func === 'cos') display.value = Math.cos(value);
+                if (func === 'tan') display.value = Math.tan(value);
+            } catch (e) {
+                display.value = "Error";
+            }
+        }
+
+        /* 로그 계산 (밑수 10) */
+        function calculateLog() {
+            var display = document.getElementById("display");
+            try {
+                display.value = Math.log10(eval(display.value));
+            } catch (e) {
+                display.value = "Error";
+            }
+        }
+
+        /* 자연로그 계산 */
+        function calculateLn() {
+            var display = document.getElementById("display");
+            try {
+                display.value = Math.log(eval(display.value));
+            } catch (e) {
+                display.value = "Error";
+            }
+        }
+
+        /* 제곱근 계산 */
+        function calculateSqrt() {
+            var display = document.getElementById("display");
+            try {
+                display.value = Math.sqrt(eval(display.value));
+            } catch (e) {
+                display.value = "Error";
+            }
+        }
+
+        /* 제곱 계산 */
+        function calculatePow() {
+            var display = document.getElementById("display");
+            try {
+                var values = display.value.split('^');
+                if (values.length === 2) {
+                    var base = parseFloat(values[0]);
+                    var exponent = parseFloat(values[1]);
+                    display.value = Math.pow(base, exponent);
+                } else {
+                    display.value = Math.pow(eval(display.value), 2);
+                }
+            } catch (e) {
+                display.value = "Error";
+            }
+        }
+
+        /* 지수 함수 계산 */
+        function calculateExp() {
+            var display = document.getElementById("display");
+            try {
+                display.value = Math.exp(eval(display.value));
+            } catch (e) {
+                display.value = "Error";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="calculator">
+        <div class="mode-switch">
+            <input type="radio" id="mode-degree" name="mode" checked onclick="toggleMode()">
+            <label for="mode-degree" class="mode-indicator">Degree</label>
+            <input type="radio" id="mode-radian" name="mode" onclick="toggleMode()">
+            <label for="mode-radian" class="mode-indicator">Radian</label>
+        </div>
+        <input type="text" id="display" class="display" readonly>
+        <div class="button-container">
+            <button class="button clear" onClick="clearDisplay()"><i class="fas fa-trash"></i></button>
+            <button class="button" onClick="backspace()"><i class="fas fa-backspace"></i></button>
+            <button class="button operator" onClick="appendValue('/')">/</button>
+            <button class="button operator" onClick="appendValue('*')">*</button>
+            <button class="button" onClick="appendValue('7')">7</button>
+            <button class="button" onClick="appendValue('8')">8</button>
+            <button class="button" onClick="appendValue('9')">9</button>
+            <button class="button operator" onClick="appendValue('-')">-</button>
+            <button class="button" onClick="appendValue('4')">4</button>
+            <button class="button" onClick="appendValue('5')">5</button>
+            <button class="button" onClick="appendValue('6')">6</button>
+            <button class="button operator" onClick="appendValue('+')">+</button>
+            <button class="button" onClick="appendValue('1')">1</button>
+            <button class="button" onClick="appendValue('2')">2</button>
+            <button class="button" onClick="appendValue('3')">3</button>
+            <button class="button button-equal" onClick="calculate()">=</button>
+            <button class="button" onClick="appendValue('0')">0</button>
+            <button class="button" onClick="appendValue('.')">.</button>
+        </div>
+        <div class="button-container-special">
+            <button class="button special" onClick="calculateTrig('sin')">sin</button>
+            <button class="button special" onClick="calculateTrig('cos')">cos</button>
+            <button class="button special" onClick="calculateTrig('tan')">tan</button>
+            <button class="button special" onClick="calculateLog()">log</button>
+            <button class="button special" onClick="calculateLn()">ln</button>
+            <button class="button special" onClick="calculateSqrt()">√</button>
+            <button class="button special" onClick="calculatePow()">^</button>
+            <button class="button special" onClick="calculateExp()">e^x</button>
+        </div>
+    </div>
+</body>
+</html>
