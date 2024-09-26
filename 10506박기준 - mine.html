@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <style>
+        * {
+            text-align: center;
+        }
+
+        #board {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #board tr td {
+            border: 1px solid white;
+            background: #34da79;
+            width: 16px;
+            height: 16px;
+            text-align: center;
+        }
+
+        #board tr td.clicked {
+            background: #6c5ee7;
+        }
+
+        #board tr td.mine {
+            background: #FF0000;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>지뢰해체게임</h1>
+    <p>시도 횟수 : <span id="clickCount"></span></p>
+    <table id="board">
+    </table>
+    <button onclick="genGrid();">새로운 게임</button>
+    <script>
+        let grid = document.getElementById("board");
+        var minesNum = 4;
+        var minesCount = 0;
+        var clickCount = document.getElementById("clickCount");
+        genGrid();
+
+        function genGrid() {
+            grid.innerHTML = "";
+            minesCount = 0;
+            clickCount.textContent = 0;
+            let mines = new Set();
+            while (mines.size < minesNum) {
+                let minePosition = Math.floor(Math.random() * 64);
+                mines.add(minePosition);
+            }
+
+            for (var i = 0; i < 8; i++) {
+                let row = grid.insertRow(i);
+                for (var j = 0; j < 8; j++) {
+                    let cell = row.insertCell(j);
+                    cell.onclick = function () { clickBox(this); };
+                    let position = i * 8 + j;
+                    if (mines.has(position)) {
+                        cell.setAttribute("mine", "true");
+                    } else {
+                        cell.setAttribute("mine", "false");
+                    }
+                }
+            }
+        }
+
+        function clickBox(cell) {
+            clickCount.textContent++;
+            if (cell.getAttribute("mine") == "true" && !cell.classList.contains("mine")) {
+                cell.className = "mine";
+                minesCount++;
+                if (minesCount == minesNum) {
+                    alert("모든 지뢰 해체완료");
+                } else {
+                    alert(minesCount + "개의 지뢰 해체완료");
+                }
+            } else if (cell.getAttribute("mine") == "false") {
+                cell.className = "clicked";
+            }
+        }
+    </script>
+</body>
+
+</html>
